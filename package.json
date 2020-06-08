@@ -2,20 +2,24 @@
   "name": "taskable-local-dev",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "dependencies": {
+    "@types/puppeteer": "^3.0.0",
     "puppeteer": "^3.0.1",
     "typescript": "^3.8.3"
   },
   "devDependencies": {},
   "scripts": {
+    "build": "rm -rf ./dist && tsc",
+    "dev": "tsc --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/taskable/taskable-local-dev.git"
+    "url": "git+ssh://git@github.com:taskable-dev/taskable-local-dev.git"
   },
   "author": "",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/taskable/taskable-local-dev#readme"
+  "homepage": "https://github.com/taskable-dev/taskable-local-dev#readme"
 }
