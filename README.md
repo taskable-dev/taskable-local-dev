@@ -9,5 +9,5 @@ yarn build
 ### To watch
 
 ```
-yarn watch
+yarn dev
 ```
