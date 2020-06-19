@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.task = exports.step = exports.taskableEnv = exports.store = exports.screenshot = exports.logger = void 0;
 const puppeteer_1 = require("puppeteer");
+const app_root_path_1 = require("app-root-path");
 exports.logger = {
     info: console.log,
 };
@@ -67,27 +68,15 @@ class taskableEnv {
         this.resolve(this.steps);
     }
     captureLogs() {
+        const createLog = (type, message) => {
+            let timestamp = new Date().getTime();
+            this.step.logs.push({ timestamp, type, message });
+        };
         this.page
-            .on('console', (message) => this.step.logs.push({
-            type: 'console',
-            message: `${message.type().substr(0, 3).toUpperCase()} ${message.text()}`,
-        }))
-            .on('pageerror', ({ message }) => this.step.logs.push({
-            type: 'pageerror',
-            message,
-        }))
-            .on('response', (response) => this.step.logs.push({
-            type: 'response',
-            message: `${response.status()} ${response.url()}`,
-        }))
-            .on('requestfailed', (request) => {
-            let failure = request.failure();
-            let error = failure.errorText || '';
-            this.step.logs.push({
-                type: 'requestfailed',
-                message: `${error} ${request.url()}`,
-            });
-        });
+            .on('console', message => createLog('console', `${message.type().substr(0, 3).toUpperCase()} ${message.text()}`))
+            .on('pageerror', ({ message }) => createLog('pageerror', message))
+            .on('response', response => createLog('response', `${response.status()} ${response.url()}`))
+            .on('requestfailed', request => createLog('requestfailed', `${request.failure().errorText} ${request.url()}`));
     }
     screenshot(name, args = undefined) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -160,6 +149,14 @@ class step {
     }
 }
 exports.step = step;
+let vars = {};
+try {
+    vars = require(`${app_root_path_1.default.path}/vars.json`) || {};
+}
+catch (e) {
+    console.log('failed to load variables from vars.json');
+}
+exports.default = vars;
 exports.task = {
     run: (tasks) => __awaiter(void 0, void 0, void 0, function* () {
         console.log('running');

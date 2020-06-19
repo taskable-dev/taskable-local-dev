@@ -1,5 +1,5 @@
-import fs from 'fs';
 import { Browser, launch, Page } from 'puppeteer'
+// @ts-ignore
 import appRoot from 'app-root-path'
 
 export const logger = {
@@ -211,8 +211,9 @@ export interface TaskableStepParameters {
 let vars = {};
 
 try {
+  // @ts-ignore
   vars = require(`${appRoot.path}/vars.json`) || {};
-} catch() {
+} catch(e) {
   console.log('failed to load variables from vars.json');
 }
 

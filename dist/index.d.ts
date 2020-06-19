@@ -53,7 +53,8 @@ export interface TaskableStepParameters {
     store(data: any): any;
     screenshot(name?: string, options?: any): any;
 }
+declare let vars: {};
+export default vars;
 export declare const task: {
     run: (tasks: Array<step>) => Promise<void>;
 };
-export {};
