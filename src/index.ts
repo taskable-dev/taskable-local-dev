@@ -1,8 +1,11 @@
+import fs from 'fs';
 import { Browser, launch, Page } from 'puppeteer'
+import appRoot from 'app-root-path'
 
 export const logger = {
   info: console.log,
 }
+
 
 export const screenshot: any = null
 export const store: any = null
@@ -94,34 +97,17 @@ export class taskableEnv {
    * Capture log data, and append them to the passed logs list
    */
   captureLogs() {
+    const createLog = (type, message) => {
+        let timestamp = new Date().getTime();
+        this.step.logs.push({timestamp, type, message})
+    }
+
     // attach console listeners to the page, to make sure we capture the results
     this.page
-      .on('console', (message) =>
-        this.step.logs.push({
-          type: 'console',
-          message: `${message.type().substr(0, 3).toUpperCase()} ${message.text()}`,
-        }),
-      )
-      .on('pageerror', ({ message }) =>
-        this.step.logs.push({
-          type: 'pageerror',
-          message,
-        }),
-      )
-      .on('response', (response) =>
-        this.step.logs.push({
-          type: 'response',
-          message: `${response.status()} ${response.url()}`,
-        }),
-      )
-      .on('requestfailed', (request) => {
-        let failure: any = request.failure()
-        let error: string = failure.errorText || ''
-        this.step.logs.push({
-          type: 'requestfailed',
-          message: `${error} ${request.url()}`,
-        })
-      })
+        .on('console', message => createLog('console', `${message.type().substr(0, 3).toUpperCase()} ${message.text()}`))
+        .on('pageerror', ({ message }) => createLog('pageerror', message))
+        .on('response', response => createLog('response', `${response.status()} ${response.url()}`))
+        .on('requestfailed', request => createLog('requestfailed', `${request.failure().errorText} ${request.url()}`))
   }
 
   async screenshot(name: string, args: any = undefined) {
@@ -221,6 +207,17 @@ export interface TaskableStepParameters {
   store(data: any): any
   screenshot(name?: string, options?: any): any
 }
+
+let vars = {};
+
+try {
+  vars = require(`${appRoot.path}/vars.json`) || {};
+} catch() {
+  console.log('failed to load variables from vars.json');
+}
+
+export default vars;
+
 
 export const task = {
   run: async (tasks: Array<step>) => {

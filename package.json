@@ -6,6 +6,7 @@
   "typings": "dist/index.d.ts",
   "dependencies": {
     "@types/puppeteer": "^3.0.0",
+    "app-root-path": "^3.0.0",
     "puppeteer": "^3.0.1",
     "typescript": "^3.8.3"
   },
