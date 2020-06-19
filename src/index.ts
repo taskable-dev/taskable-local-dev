@@ -208,16 +208,16 @@ export interface TaskableStepParameters {
   screenshot(name?: string, options?: any): any
 }
 
-let vars = {};
+let importedVars = {};
 
 try {
   // @ts-ignore
-  vars = require(`${appRoot.path}/vars.json`) || {};
+  importedVars = require(`${appRoot.path}/vars.json`) || {};
 } catch(e) {
   console.log('failed to load variables from vars.json');
 }
 
-export default vars;
+export const vars = importedVars;
 
 
 export const task = {

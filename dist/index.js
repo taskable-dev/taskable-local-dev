@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.task = exports.step = exports.taskableEnv = exports.store = exports.screenshot = exports.logger = void 0;
+exports.task = exports.vars = exports.step = exports.taskableEnv = exports.store = exports.screenshot = exports.logger = void 0;
 const puppeteer_1 = require("puppeteer");
 const app_root_path_1 = require("app-root-path");
 exports.logger = {
@@ -149,14 +149,14 @@ class step {
     }
 }
 exports.step = step;
-let vars = {};
+let importedVars = {};
 try {
-    vars = require(`${app_root_path_1.default.path}/vars.json`) || {};
+    importedVars = require(`${app_root_path_1.default.path}/vars.json`) || {};
 }
 catch (e) {
     console.log('failed to load variables from vars.json');
 }
-exports.default = vars;
+exports.vars = importedVars;
 exports.task = {
     run: (tasks) => __awaiter(void 0, void 0, void 0, function* () {
         console.log('running');
