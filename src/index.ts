@@ -217,7 +217,7 @@ try {
   console.log('failed to load variables from vars.json');
 }
 
-export const vars = importedVars;
+export const vars: any = importedVars;
 
 
 export const task = {
