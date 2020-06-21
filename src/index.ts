@@ -1,6 +1,6 @@
 import { Browser, launch, Page } from 'puppeteer'
 // @ts-ignore
-import appRoot from 'app-root-path'
+let appRoot = require('app-root-path')
 
 export const logger = {
   info: console.log,
