@@ -6,7 +6,6 @@ export const logger = {
   info: console.log,
 }
 
-
 export const screenshot: any = null
 export const store: any = null
 
@@ -98,16 +97,18 @@ export class taskableEnv {
    */
   captureLogs() {
     const createLog = (type, message) => {
-        let timestamp = new Date().getTime();
-        this.step.logs.push({timestamp, type, message})
+      let timestamp = new Date().getTime()
+      this.step.logs.push({ timestamp, type, message })
     }
 
     // attach console listeners to the page, to make sure we capture the results
     this.page
-        .on('console', message => createLog('console', `${message.type().substr(0, 3).toUpperCase()} ${message.text()}`))
-        .on('pageerror', ({ message }) => createLog('pageerror', message))
-        .on('response', response => createLog('response', `${response.status()} ${response.url()}`))
-        .on('requestfailed', request => createLog('requestfailed', `${request.failure().errorText} ${request.url()}`))
+      .on('console', (message) =>
+        createLog('console', `${message.type().substr(0, 3).toUpperCase()} ${message.text()}`),
+      )
+      .on('pageerror', ({ message }) => createLog('pageerror', message))
+      .on('response', (response) => createLog('response', `${response.status()} ${response.url()}`))
+      .on('requestfailed', (request) => createLog('requestfailed', `${request.failure().errorText} ${request.url()}`))
   }
 
   async screenshot(name: string, args: any = undefined) {
@@ -208,17 +209,16 @@ export interface TaskableStepParameters {
   screenshot(name?: string, options?: any): any
 }
 
-let importedVars = {};
+let importedVars = {}
 
 try {
   // @ts-ignore
-  importedVars = require(`${appRoot.path}/vars.json`) || {};
-} catch(e) {
-  console.log('failed to load variables from vars.json');
+  importedVars = require(`${appRoot.path}/vars.json`) || {}
+} catch (e) {
+  console.log('failed to load variables from vars.json')
 }
 
-export const vars: any = importedVars;
-
+export const vars: any = importedVars
 
 export const task = {
   run: async (tasks: Array<step>) => {

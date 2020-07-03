@@ -1,6 +1,6 @@
 {
-  "name": "taskable-local-dev",
-  "version": "1.0.0",
+  "name": "@taskable/taskable",
+  "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
