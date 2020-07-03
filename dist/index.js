@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.task = exports.vars = exports.step = exports.taskableEnv = exports.store = exports.screenshot = exports.logger = void 0;
+const appRoot = require("app-root-path");
 const puppeteer_1 = require("puppeteer");
-let appRoot = require('app-root-path');
 exports.logger = {
     info: console.log,
 };
@@ -73,10 +73,13 @@ class taskableEnv {
             this.step.logs.push({ timestamp, type, message });
         };
         this.page
-            .on('console', message => createLog('console', `${message.type().substr(0, 3).toUpperCase()} ${message.text()}`))
+            .on('console', (message) => createLog('console', `${message.type().substr(0, 3).toUpperCase()} ${message.text()}`))
             .on('pageerror', ({ message }) => createLog('pageerror', message))
-            .on('response', response => createLog('response', `${response.status()} ${response.url()}`))
-            .on('requestfailed', request => createLog('requestfailed', `${request.failure().errorText} ${request.url()}`));
+            .on('response', (response) => createLog('response', `${response.status()} ${response.url()}`))
+            .on('requestfailed', (request) => {
+            var _a;
+            createLog('requestfailed', `${(_a = request.failure()) === null || _a === void 0 ? void 0 : _a.errorText} ${request.url()}`);
+        });
     }
     screenshot(name, args = undefined) {
         return __awaiter(this, void 0, void 0, function* () {
