@@ -1,6 +1,5 @@
+import * as appRoot from 'app-root-path'
 import { Browser, launch, Page } from 'puppeteer'
-// @ts-ignore
-let appRoot = require('app-root-path')
 
 export const logger = {
   info: console.log,
@@ -96,7 +95,7 @@ export class taskableEnv {
    * Capture log data, and append them to the passed logs list
    */
   captureLogs() {
-    const createLog = (type, message) => {
+    const createLog = (type: string, message: string) => {
       let timestamp = new Date().getTime()
       this.step.logs.push({ timestamp, type, message })
     }
@@ -108,7 +107,9 @@ export class taskableEnv {
       )
       .on('pageerror', ({ message }) => createLog('pageerror', message))
       .on('response', (response) => createLog('response', `${response.status()} ${response.url()}`))
-      .on('requestfailed', (request) => createLog('requestfailed', `${request.failure().errorText} ${request.url()}`))
+      .on('requestfailed', (request) => {
+        createLog('requestfailed', `${request.failure()?.errorText} ${request.url()}`)
+      })
   }
 
   async screenshot(name: string, args: any = undefined) {
@@ -212,7 +213,6 @@ export interface TaskableStepParameters {
 let importedVars = {}
 
 try {
-  // @ts-ignore
   importedVars = require(`${appRoot.path}/vars.json`) || {}
 } catch (e) {
   console.log('failed to load variables from vars.json')

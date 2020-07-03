@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "dependencies": {
+    "@types/app-root-path": "^1.2.4",
     "@types/puppeteer": "^3.0.0",
     "app-root-path": "^3.0.0",
     "puppeteer": "^3.0.1",
