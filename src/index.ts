@@ -1,5 +1,5 @@
-import * as appRoot from 'app-root-path'
-import { Browser, launch, Page } from 'puppeteer'
+import appRoot from 'app-root-path'
+import { Browser, launch, LaunchOptions, Page } from 'puppeteer'
 
 export const logger = {
   info: console.log,
@@ -210,7 +210,7 @@ export interface TaskableStepParameters {
   screenshot(name?: string, options?: any): any
 }
 
-let importedVars = {}
+let importedVars: any = {}
 
 try {
   importedVars = require(`${appRoot.path}/vars.json`) || {}
@@ -221,10 +221,10 @@ try {
 export const vars: any = importedVars
 
 export const task = {
-  run: async (tasks: Array<step>) => {
+  run: async (tasks: Array<step>, options?: LaunchOptions) => {
     console.log('running')
-    // start browser
-    let browser: Browser = await launch()
+
+    let browser: Browser = await launch(options)
 
     // start page
     let page = await browser.newPage()

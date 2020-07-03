@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.task = exports.vars = exports.step = exports.taskableEnv = exports.store = exports.screenshot = exports.logger = void 0;
-const appRoot = require("app-root-path");
+const app_root_path_1 = require("app-root-path");
 const puppeteer_1 = require("puppeteer");
 exports.logger = {
     info: console.log,
@@ -154,16 +154,16 @@ class step {
 exports.step = step;
 let importedVars = {};
 try {
-    importedVars = require(`${appRoot.path}/vars.json`) || {};
+    importedVars = require(`${app_root_path_1.default.path}/vars.json`) || {};
 }
 catch (e) {
     console.log('failed to load variables from vars.json');
 }
 exports.vars = importedVars;
 exports.task = {
-    run: (tasks) => __awaiter(void 0, void 0, void 0, function* () {
+    run: (tasks, options) => __awaiter(void 0, void 0, void 0, function* () {
         console.log('running');
-        let browser = yield puppeteer_1.launch();
+        let browser = yield puppeteer_1.launch(options);
         let page = yield browser.newPage();
         let results = yield new Promise((resolve) => __awaiter(void 0, void 0, void 0, function* () {
             let taskableEnvironment = new taskableEnv('test', page, resolve);
