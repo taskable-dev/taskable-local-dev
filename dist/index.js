@@ -164,6 +164,7 @@ exports.task = {
     run: (tasks) => __awaiter(void 0, void 0, void 0, function* () {
         console.log('running');
         let browser = yield puppeteer_1.launch({
+            headless: false,
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
