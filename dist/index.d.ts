@@ -1,4 +1,4 @@
-import { Page } from 'puppeteer';
+import { LaunchOptions, Page } from 'puppeteer';
 export declare const logger: {
     info: {
         (...data: any[]): void;
@@ -55,6 +55,6 @@ export interface TaskableStepParameters {
 }
 export declare const vars: any;
 export declare const task: {
-    run: (tasks: Array<step>) => Promise<void>;
+    run: (tasks: Array<step>, options?: LaunchOptions | undefined) => Promise<void>;
 };
 export {};

@@ -11,8 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.task = exports.vars = exports.step = exports.taskableEnv = exports.store = exports.screenshot = exports.logger = void 0;
 const app_root_path_1 = require("app-root-path");
-const puppeteer_extra_1 = require("puppeteer-extra");
-const puppeteer_extra_plugin_stealth_1 = require("puppeteer-extra-plugin-stealth");
+const puppeteer_1 = require("puppeteer");
 exports.logger = {
     info: console.log,
 };
@@ -162,21 +161,9 @@ catch (e) {
 }
 exports.vars = importedVars;
 exports.task = {
-    run: (tasks) => __awaiter(void 0, void 0, void 0, function* () {
+    run: (tasks, options) => __awaiter(void 0, void 0, void 0, function* () {
         console.log('running');
-        puppeteer_extra_1.default.use(puppeteer_extra_plugin_stealth_1.default());
-        let browser = yield puppeteer_extra_1.default.launch({
-            headless: true,
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-                '--disable-infobars',
-                '--window-position=0,0',
-                '--ignore-certifcate-errors',
-                '--ignore-certifcate-errors-spki-list',
-                '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"',
-            ],
-        });
+        let browser = yield puppeteer_1.launch(options);
         let page = yield browser.newPage();
         let results = yield new Promise((resolve) => __awaiter(void 0, void 0, void 0, function* () {
             let taskableEnvironment = new taskableEnv('test', page, resolve);

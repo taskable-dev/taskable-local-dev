@@ -1,7 +1,6 @@
 import appRoot from 'app-root-path'
-import { Page } from 'puppeteer'
-import puppeteer from 'puppeteer-extra'
-import StealthPlugin from 'puppeteer-extra-plugin-stealth'
+import { Browser, launch, LaunchOptions, Page } from 'puppeteer'
+
 export const logger = {
   info: console.log,
 }
@@ -222,22 +221,10 @@ try {
 export const vars: any = importedVars
 
 export const task = {
-  run: async (tasks: Array<step>) => {
+  run: async (tasks: Array<step>, options?: LaunchOptions) => {
     console.log('running')
 
-    puppeteer.use(StealthPlugin())
-    let browser: any = await puppeteer.launch({
-      headless: true,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-infobars',
-        '--window-position=0,0',
-        '--ignore-certifcate-errors',
-        '--ignore-certifcate-errors-spki-list',
-        '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"',
-      ],
-    })
+    let browser: Browser = await launch(options)
 
     // start page
     let page = await browser.newPage()
