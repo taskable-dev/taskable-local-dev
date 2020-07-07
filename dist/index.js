@@ -11,7 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.task = exports.vars = exports.step = exports.taskableEnv = exports.store = exports.screenshot = exports.logger = void 0;
 const app_root_path_1 = require("app-root-path");
-const puppeteer_1 = require("puppeteer");
+const puppeteer_extra_1 = require("puppeteer-extra");
+const puppeteer_extra_plugin_stealth_1 = require("puppeteer-extra-plugin-stealth");
 exports.logger = {
     info: console.log,
 };
@@ -161,9 +162,10 @@ catch (e) {
 }
 exports.vars = importedVars;
 exports.task = {
-    run: (tasks, options) => __awaiter(void 0, void 0, void 0, function* () {
+    run: (tasks) => __awaiter(void 0, void 0, void 0, function* () {
         console.log('running');
-        let browser = yield puppeteer_1.launch(options);
+        puppeteer_extra_1.default.use(puppeteer_extra_plugin_stealth_1.default());
+        let browser = yield puppeteer_extra_1.default.launch();
         let page = yield browser.newPage();
         let results = yield new Promise((resolve) => __awaiter(void 0, void 0, void 0, function* () {
             let taskableEnvironment = new taskableEnv('test', page, resolve);

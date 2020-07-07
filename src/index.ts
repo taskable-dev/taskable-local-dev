@@ -1,6 +1,7 @@
 import appRoot from 'app-root-path'
-import { Browser, launch, LaunchOptions, Page } from 'puppeteer'
-
+import { Page } from 'puppeteer'
+import puppeteer from 'puppeteer-extra'
+import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 export const logger = {
   info: console.log,
 }
@@ -221,10 +222,11 @@ try {
 export const vars: any = importedVars
 
 export const task = {
-  run: async (tasks: Array<step>, options?: LaunchOptions) => {
+  run: async (tasks: Array<step>) => {
     console.log('running')
 
-    let browser: Browser = await launch(options)
+    puppeteer.use(StealthPlugin())
+    let browser: any = await puppeteer.launch()
 
     // start page
     let page = await browser.newPage()
