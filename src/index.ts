@@ -1,5 +1,5 @@
 import appRoot from 'app-root-path'
-import { Browser, launch, LaunchOptions, Page } from 'puppeteer'
+import { Browser, launch, Page } from 'puppeteer'
 
 export const logger = {
   info: console.log,
@@ -221,10 +221,20 @@ try {
 export const vars: any = importedVars
 
 export const task = {
-  run: async (tasks: Array<step>, options?: LaunchOptions) => {
+  run: async (tasks: Array<step>) => {
     console.log('running')
 
-    let browser: Browser = await launch(options)
+    let browser: Browser = await launch({
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-infobars',
+        '--window-position=0,0',
+        '--ignore-certifcate-errors',
+        '--ignore-certifcate-errors-spki-list',
+        '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"',
+      ],
+    })
 
     // start page
     let page = await browser.newPage()

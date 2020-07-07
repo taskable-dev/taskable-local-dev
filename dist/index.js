@@ -161,9 +161,19 @@ catch (e) {
 }
 exports.vars = importedVars;
 exports.task = {
-    run: (tasks, options) => __awaiter(void 0, void 0, void 0, function* () {
+    run: (tasks) => __awaiter(void 0, void 0, void 0, function* () {
         console.log('running');
-        let browser = yield puppeteer_1.launch(options);
+        let browser = yield puppeteer_1.launch({
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-infobars',
+                '--window-position=0,0',
+                '--ignore-certifcate-errors',
+                '--ignore-certifcate-errors-spki-list',
+                '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"',
+            ],
+        });
         let page = yield browser.newPage();
         let results = yield new Promise((resolve) => __awaiter(void 0, void 0, void 0, function* () {
             let taskableEnvironment = new taskableEnv('test', page, resolve);
