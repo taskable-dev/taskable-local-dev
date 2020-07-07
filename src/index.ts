@@ -225,6 +225,7 @@ export const task = {
     console.log('running')
 
     let browser: Browser = await launch({
+      headless: false,
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
